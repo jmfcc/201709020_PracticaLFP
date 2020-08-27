@@ -33,7 +33,7 @@ while True:
     if comando:
         #comando = comando.lower()
         tokens = removeSpaces(comando)
-        if tokens and len(tokens) > 1:
+        if tokens and (len(tokens) > 1 or tokens[0].lower() == "cuenta"):
             tokens[0] = tokens[0].lower()
             #print("tiene tokens ------")
             if tokens[0] == "cargar":
@@ -165,6 +165,8 @@ while True:
             elif tokens[0].lower() == "cuenta":
                 if len(tokens) == 1:
                     simpleql.cont()
+                else:
+                    print(" -- Error de comando -- ")
             elif tokens[0].lower() == "reporta":
                 if len(tokens) == 2:
                     try:
@@ -174,6 +176,8 @@ while True:
                         print(" -- Error de numero de registros a reportar -- ")
                 else:
                     print(" -- Error de comando -- ")
+            else:
+                print(" -- Comando no válido -- ")
         else:
             if tokens[0].lower() == "end":
                 break
