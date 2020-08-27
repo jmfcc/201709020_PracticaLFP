@@ -4,14 +4,13 @@ import os
 
 db = []
 
-def cargar():
-    listfiles = input("Ingrese los archivos a cargar: ")
-    if listfiles:
-        listf = listfiles.strip().split(",")
+def dbempty():
+    if db:
+        return False
     else:
-        print("\nDebe ingresar las direcciones de los archivos")
-        time.sleep(1)
-        return
+        return True
+
+def cargar(listf):
     for f in listf:
         if os.path.isfile(f):
             ph, fh = os.path.split(f)
@@ -22,39 +21,62 @@ def cargar():
                 #db.append(datosjson)
                 db.extend(datosjson)
                 #print(datosjson)
+                time.sleep(1)
+                print(" -- Carga Completa -- ", nombre + extension,"\n")
             else:
-                print("El archivo no es de extensión .json")
+                print(" -- El archivo no es de extensión .json -- ")
         else:
-            print("El fichero no existe")
+            print(" -- Fichero no encontrado -- ")
 
-    print(" -- Carga Completa -- \n")
-    time.sleep(2)
 
-cargar()
+#cargar()
 
 def seleccion(solicitud, busqueda): #SELECCIONAR x, y, z/* DONDE n = m
-    if busqueda:
-        for registro in db:
-            #print("\n", registro, "\n")
-            if registro[busqueda[0]] == busqueda[1]:
-                #datos = []
-                if solicitud == "*":
-                    reg = []
-                    reg.extend(registro.items())
-                    for r in reg:
-                        print(r[0], ": ", r[1])  #, "   Type: ", type(r[1])
-                else:
-                    for s in solicitud:
-                        print(s, ": ", registro[s])  #, "   Type: ", type(registro[s])
-                        #datos.append(registro[s])
-                return
-    elif solicitud == "*":
-        for registro in db:
-            reg = []
-            reg.extend(registro.items())
-            for r in reg:
-                print(r[0], ": ", r[1])  #, "   Type: ", type(r[1])
-            print()
+    if not dbempty():
+        if busqueda:
+            find = False
+            for registro in db:
+                #print("\n", busqueda, "\n")
+                #print("valida item")
+                if registro[busqueda[0]] == busqueda[1]:
+                    find = True
+                    if solicitud == "*":
+                        reg = []
+                        reg.extend(registro.items())
+                        for r in reg:
+                            print(r[0], ": ", r[1])  #, "   Type: ", type(r[1])
+                    else:
+                        for s in solicitud:
+                            print(s, ": ", registro[s])  #, "   Type: ", type(registro[s])
+                            #datos.append(registro[s])
+                    print()
+                elif busqueda[0] == "nombre" and registro[busqueda[0]].lower() == busqueda[1]:
+                    find = True
+                    if solicitud == "*":
+                        reg = []
+                        reg.extend(registro.items())
+                        for r in reg:
+                            print(r[0], ": ", r[1])  #, "   Type: ", type(r[1])
+                    else:
+                        for s in solicitud:
+                            print(s, ": ", registro[s])  #, "   Type: ", type(registro[s])
+                            #datos.append(registro[s])
+                    print()
+            if not find:
+                print (" -- NINGUNA COINCIDENCIA -- ")
+        elif solicitud == "*":
+            for registro in db:
+                reg = []
+                reg.extend(registro.items())
+                for r in reg:
+                    print(r[0], ": ", r[1])  #, "   Type: ", type(r[1])
+                print()
+        else:
+            for s in solicitud:
+                print(s, ": ", registro[s])  #, "   Type: ", type(registro[s])
+
+    else:
+        print(" -- NO HAY REGISTROS EN MEMORIA -- ")
 
     
 #req = ["nombre", "edad", "promedio"]
@@ -114,4 +136,4 @@ def reportar(n):
     pass
 
 
-# PYTHON\2S 2020\201709020_TareasLFP\Practica\ejemplo.json,PYTHON\2S 2020\201709020_TareasLFP\Practica\ejemplo.json
+# PYTHON\2S 2020\201709020_PracticaLFP\ejemplo.json, PYTHON\2S 2020\201709020_PracticaLFP\ejemplo2.json
