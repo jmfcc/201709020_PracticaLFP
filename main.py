@@ -142,15 +142,38 @@ while True:
                 else:
                     print(" -- Error de sintaxis -- ")
             elif tokens[0].lower() == "minimo":
-                pass
+                tokens.remove("minimo")
+                atrmin = concatena(tokens).lower()
+                if atrmin == "edad" or atrmin == "promedio":
+                    simpleql.min(atrmin)
+                else:
+                    print(" -- Atributo no válido -- ")
             elif tokens[0].lower() == "maximo":
-                pass
+                tokens.remove("maximo")
+                atrmax = concatena(tokens).lower()
+                if atrmax == "edad" or atrmax == "promedio":
+                    simpleql.max(atrmax)
+                else:
+                    print(" -- Atributo no válido -- ")
             elif tokens[0].lower() == "suma":
-                pass
+                tokens.remove("suma")
+                atrsum = concatena(tokens).lower()
+                if atrsum == "edad" or atrsum == "promedio":
+                    simpleql.suma(atrsum)
+                else:
+                    print(" -- Atributo no válido -- ")
             elif tokens[0].lower() == "cuenta":
-                pass
+                if len(tokens) == 1:
+                    simpleql.cont()
             elif tokens[0].lower() == "reporta":
-                pass
+                if len(tokens) == 2:
+                    try:
+                        n = int(tokens[1])
+                        simpleql.reportar(n)
+                    except:
+                        print(" -- Error de numero de registros a reportar -- ")
+                else:
+                    print(" -- Error de comando -- ")
         else:
             if tokens[0].lower() == "end":
                 break
