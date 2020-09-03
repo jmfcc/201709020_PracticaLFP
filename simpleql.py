@@ -1,6 +1,7 @@
 import time
 import json
 import os
+import reporte
 
 db = []
 
@@ -20,7 +21,7 @@ def cargar(listf):
                 datosjson = json.load(files) #Se carga los datos como diccionarios
                 #db.append(datosjson)
                 db.extend(datosjson)
-                #print(datosjson)
+                #print(db)
                 time.sleep(1)
                 print(" -- Carga Completa -- ", nombre + extension,"\n")
             else:
@@ -35,6 +36,7 @@ def seleccion(solicitud, busqueda): #SELECCIONAR x, y, z/* DONDE n = m
     if not dbempty():
         if busqueda:
             find = False
+            muestraencabezado = True
             for registro in db:
                 #print("\n", busqueda, "\n")
                 #print("valida item")
@@ -43,41 +45,174 @@ def seleccion(solicitud, busqueda): #SELECCIONAR x, y, z/* DONDE n = m
                     if solicitud == "*":
                         reg = []
                         reg.extend(registro.items())
+                        separa = separadorvertical(solicitud)
+                        if muestraencabezado:
+                            print("\n")
+                            print(aniadeespacio(" -- NOMBRE --") + "||" + aniadeespacio(" -- EDAD --") + "||" + aniadeespacio(" -- ACTIVO --")+ "||" + aniadeespacio(" -- PROMEDIO --") + "||")
+                            print(separa)
+                            muestraencabezado = False
+                        rowprint = ""
+                        init = True
                         for r in reg:
-                            print(r[0], ": ", r[1])  #, "   Type: ", type(r[1])
+                            if init:
+                                rowprint = aniadeespacio(r[1]) + "||"
+                                init = False
+                            else:
+                                rowprint = rowprint + aniadeespacio(r[1]) + "||"
+                        print(rowprint)
+                        print(separa)
+                            #print(r[0], ": ", r[1])  #, "   Type: ", type(r[1])
                     else:
+                        separa = separadorvertical(solicitud)
+                        if muestraencabezado:
+                            print("\n")
+                            encab = ""
+                            init = True
+                            for itm in solicitud:
+                                if init:
+                                    encab = aniadeespacio(" -- " + itm.upper() + " --")
+                                    init = False
+                                else:
+                                    encab = encab + aniadeespacio(" -- " + itm.upper() + " --")
+                            print(encab)
+                            print(separa)
+                            muestraencabezado = False
+                        rowprint = ""
+                        init = True
                         for s in solicitud:
-                            print(s, ": ", registro[s])  #, "   Type: ", type(registro[s])
+                            if init:
+                                rowprint = aniadeespacio(registro[s]) + "||"
+                                init = False
+                            else:
+                                rowprint = rowprint + aniadeespacio(registro[s]) + "||"
+                            #print(s, ": ", registro[s])  #, "   Type: ", type(registro[s])
                             #datos.append(registro[s])
-                    print()
+                        print(rowprint)
+                        print(separa)
+                    #print()
                 elif busqueda[0] == "nombre" and registro[busqueda[0]].lower() == busqueda[1]:
                     find = True
                     if solicitud == "*":
                         reg = []
                         reg.extend(registro.items())
+                        separa = separadorvertical(solicitud)
+                        if muestraencabezado:
+                            print("\n")
+                            print(aniadeespacio(" -- NOMBRE --") + "||" + aniadeespacio(" -- EDAD --") + "||" + aniadeespacio(" -- ACTIVO --")+ "||" + aniadeespacio(" -- PROMEDIO --") + "||")
+                            print(separa)
+                            muestraencabezado = False
+                        rowprint = ""
+                        init = True
                         for r in reg:
-                            print(r[0], ": ", r[1])  #, "   Type: ", type(r[1])
+                            if init:
+                                rowprint = aniadeespacio(r[1]) + "||"
+                                init = False
+                            else:
+                                rowprint = rowprint + aniadeespacio(r[1]) + "||"
+                        print(rowprint)
+                        print(separa)
                     else:
+                        separa = separadorvertical(solicitud)
+                        if muestraencabezado:
+                            print("\n")
+                            encab = ""
+                            init = True
+                            for itm in solicitud:
+                                if init:
+                                    encab = aniadeespacio(" -- " + itm.upper() + " --")
+                                    init = False
+                                else:
+                                    encab = encab + aniadeespacio(" -- " + itm.upper() + " --")
+                            print(encab)
+                            print(separa)
+                            muestraencabezado = False
+                        rowprint = ""
+                        init = True
                         for s in solicitud:
-                            print(s, ": ", registro[s])  #, "   Type: ", type(registro[s])
+                            if init:
+                                rowprint = aniadeespacio(registro[s]) + "||"
+                                init = False
+                            else:
+                                rowprint = rowprint + aniadeespacio(registro[s]) + "||"
+                            #print(s, ": ", registro[s])  #, "   Type: ", type(registro[s])
                             #datos.append(registro[s])
-                    print()
+                        print(rowprint)
+                        print(separa)
+                    #print()
             if not find:
                 print (" -- NINGUNA COINCIDENCIA -- ")
         elif solicitud == "*":
+            print("\n")
+            separa = separadorvertical(solicitud)
+            print(aniadeespacio(" -- NOMBRE --") + "||" + aniadeespacio(" -- EDAD --") + "||" + aniadeespacio(" -- ACTIVO --")+ "||" + aniadeespacio(" -- PROMEDIO --") + "||")
+            print(separa)
             for registro in db:
                 reg = []
                 reg.extend(registro.items())
+                rowprint = ""
+                init = True
                 for r in reg:
-                    print(r[0], ": ", r[1])  #, "   Type: ", type(r[1])
-                print()
+                    if init:
+                        rowprint = aniadeespacio(r[1]) + "||"
+                        init = False
+                    else:
+                        rowprint = rowprint + aniadeespacio(r[1]) + "||"
+                print(rowprint)
+                print(separa)
         else:
-            for s in solicitud:
-                print(s, ": ", registro[s])  #, "   Type: ", type(registro[s])
-
+            print("\n")
+            separa = separadorvertical(solicitud)
+            encab = ""
+            init = True
+            for itm in solicitud:
+                if init:
+                    encab = aniadeespacio(" -- " + itm.upper() + " --")
+                    init = False
+                else:
+                    encab = encab + aniadeespacio(" -- " + itm.upper() + " --")
+            print(encab)
+            print(separa)
+            for registro in db:
+                rowprint = ""
+                init = True
+                for s in solicitud:
+                    if init:
+                        rowprint = aniadeespacio(registro[s]) + "||"
+                        init = False
+                    else:
+                        rowprint = rowprint + aniadeespacio(registro[s]) + "||"
+                    #print(s, ": ", registro[s])  #, "   Type: ", type(registro[s])
+                    #datos.append(registro[s])
+                print(rowprint)
+                print(separa)
     else:
         print(" -- NO HAY REGISTROS EN MEMORIA -- ")
 
+def separadorvertical(n):
+    try:
+        if n == "*":
+            n = ["*", "*", "*", "*"]
+    except:
+        pass
+    sep = ""
+    init = True
+    for i in range(0, len(n)):
+        if init:   
+            sep = "--------------------------------||"
+            init = False
+        else:
+            sep = sep + "--------------------------------||"
+    return sep
+
+def aniadeespacio(elemento):
+    elem = str(elemento)
+    k = 32
+    k = k - len(elem)
+    spaces = ""
+    for i in range(0, k):
+        spaces = spaces + " "
+    elem = elem + spaces
+    return elem
     
 #req = ["nombre", "edad", "promedio"]
 #reqall = "*"
@@ -86,7 +221,7 @@ def seleccion(solicitud, busqueda): #SELECCIONAR x, y, z/* DONDE n = m
 #b = ""
 #seleccion(reqall, b)
 
-def max(tipo): #MAXIMO edad/promedio
+def getmaximo(tipo): #MAXIMO edad/promedio
     maximo = 0
     init = True
     for registro in db:
@@ -100,7 +235,7 @@ def max(tipo): #MAXIMO edad/promedio
 
 #max("promedio")
 
-def min(tipo): #MINIMO edad/promedio
+def getminimo(tipo): #MINIMO edad/promedio
     minimo = 0
     init = True
     for registro in db:
@@ -133,7 +268,12 @@ def cont(): #CUENTA
 #cont()
 
 def reportar(n):
-    pass
+    print(" -- Generando Reporte -- ")
+    time.sleep(1)
+    reporte.reporte(db, n)
+
+def dblength():
+    return len(db)
 
 
-# PYTHON\2S 2020\201709020_PracticaLFP\ejemplo.json, PYTHON\2S 2020\201709020_PracticaLFP\ejemplo2.json
+# cargar PYTHON\2S 2020\201709020_PracticaLFP\ejemplo.json, PYTHON\2S 2020\201709020_PracticaLFP\ejemplo2.json

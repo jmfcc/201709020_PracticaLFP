@@ -33,6 +33,7 @@ while True:
     if comando:
         #comando = comando.lower()
         tokens = removeSpaces(comando)
+        #print(tokens)
         if tokens and (len(tokens) > 1 or tokens[0].lower() == "cuenta"):
             tokens[0] = tokens[0].lower()
             #print("tiene tokens ------")
@@ -121,7 +122,7 @@ while True:
                     #print(busqueda)
                     #print(tokens, "  ", contcomm, "  ", contesp, "  ", solicitud)
                     if contcomm == (len(solicitud) - 1) and contcomm == contesp:
-                        print(solicitud)
+                        #print(solicitud)
                         valida = True
                         for s in solicitud:
                             if copyatr.__contains__(s):
@@ -145,14 +146,14 @@ while True:
                 tokens.remove("minimo")
                 atrmin = concatena(tokens).lower()
                 if atrmin == "edad" or atrmin == "promedio":
-                    simpleql.min(atrmin)
+                    simpleql.getminimo(atrmin)
                 else:
                     print(" -- Atributo no válido -- ")
             elif tokens[0].lower() == "maximo":
                 tokens.remove("maximo")
                 atrmax = concatena(tokens).lower()
                 if atrmax == "edad" or atrmax == "promedio":
-                    simpleql.max(atrmax)
+                    simpleql.getmaximo(atrmax)
                 else:
                     print(" -- Atributo no válido -- ")
             elif tokens[0].lower() == "suma":
@@ -167,11 +168,16 @@ while True:
                     simpleql.cont()
                 else:
                     print(" -- Error de comando -- ")
-            elif tokens[0].lower() == "reporta":
+            elif tokens[0].lower() == "reportar":
                 if len(tokens) == 2:
                     try:
                         n = int(tokens[1])
-                        simpleql.reportar(n)
+                        if n <= 0:
+                            print(" --- Error de cantidad solicitada --- ")
+                        elif n <= simpleql.dblength():
+                            simpleql.reportar(n)
+                        else:
+                            print(" -- La cantidad de registros solicitados exede a los existentes -- ")
                     except:
                         print(" -- Error de numero de registros a reportar -- ")
                 else:
